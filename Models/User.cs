@@ -15,14 +15,16 @@ public class User
     [StringLength(50)] // Sätt en maxlängd för strängen
     public string Username { get; set; }
 
-    [Column("password_hash")] // Mappa egenskapen till kolumnen "password_hash"
+    [Column("password")] // Mappa egenskapen till kolumnen "password_hash"
     [Required]
-    public string PasswordHash { get; set; }
+    public string Password { get; set; }
 
     [Column("email")]
     [Required]
     [EmailAddress] // Validera e-postformat
     public string Email { get; set; }
 
-    // Lägg till fler egenskaper för att representera andra kolumner
+    // Foreign key för Roll
+    [ForeignKey("Role")] // Använd detta för att definiera relationen
+    public int RoleId { get; set; }
 }
