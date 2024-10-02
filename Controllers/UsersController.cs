@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AuthApi.Models;
 using AuthApi.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AuthApi.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
