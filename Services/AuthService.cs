@@ -6,14 +6,17 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 
 public class AuthService : IAuthService
 {
     private readonly ApplicationDbContext _context;
+    private readonly IConfiguration _configuration;
 
-    public AuthService(ApplicationDbContext context)
+    public AuthService(ApplicationDbContext context, IConfiguration configuration)
     {
         _context = context;
+        _configuration = configuration;
     }
 
     public async Task<(bool Success, string Message, User User)> RegisterUserAsync(User user)
@@ -46,9 +49,12 @@ public class AuthService : IAuthService
             return null; // eller kasta ett undantag
         }
 
+        // Hämta JWT Secret från appsettings.json
+        var jwtSecret = _configuration["JwtSettings:Secret"];
+        var key = Encoding.UTF8.GetBytes(jwtSecret);
+
         // Generera en JWT-token
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.UTF8.GetBytes("YourSuperSecretKeyMustBe32Bytes!!");
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[]

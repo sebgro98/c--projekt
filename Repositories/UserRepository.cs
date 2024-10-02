@@ -23,17 +23,28 @@ namespace AuthApi.Repository
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task CreateUserAsync(User user)
+
+
+        public async Task<User> UpdateUserAsync(int id, User user)
         {
-            await _context.Users.AddAsync(user);
+            var userToUpdate = await _context.Users.FindAsync(id);
+
+            if (userToUpdate == null)
+            {
+                return null; // Returnera null om användaren inte hittas
+            }
+
+            // Uppdatera användarens fält
+            userToUpdate.Email = user.Email;
+            userToUpdate.Username = user.Username;
+            userToUpdate.Password = user.Password;
+
+            _context.Users.Update(userToUpdate);
             await _context.SaveChangesAsync();
+
+            return userToUpdate;
         }
 
-        public async Task UpdateUserAsync(User user)
-        {
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-        }
 
         public async Task DeleteUserAsync(int id)
         {
@@ -43,6 +54,11 @@ namespace AuthApi.Repository
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public Task UpdateUserAsync(User user, int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

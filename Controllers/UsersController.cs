@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AuthApi.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -19,7 +19,9 @@ namespace AuthApi.Controllers
             _userRepository = userRepository;
         }
 
+
         // GET: api/users
+        [Authorize(Roles = "Admin, User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -27,7 +29,9 @@ namespace AuthApi.Controllers
             return Ok(users);
         }
 
+
         // GET: api/users/{id}
+        [Authorize(Roles = "Admin, User")]
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
@@ -37,23 +41,28 @@ namespace AuthApi.Controllers
                 return NotFound();
             }
             return Ok(user);
-        }
+        }   
 
 
         // PUT: api/users/{id}
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, User user)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
         {
-            if (id != user.Id)
+            User updatedUser = await _userRepository.UpdateUserAsync(id, user);
+
+            if (updatedUser == null)
             {
-                return BadRequest();
+                return NotFound(); // Returnera 404 om användaren inte hittas
             }
 
-            await _userRepository.UpdateUserAsync(user);
-            return NoContent();
+            return Ok(updatedUser); // Returnera uppdaterad användare
         }
 
+
+
         // DELETE: api/users/{id}
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
