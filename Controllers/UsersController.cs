@@ -60,7 +60,6 @@ namespace AuthApi.Controllers
         }
 
 
-
         // DELETE: api/users/{id}
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
