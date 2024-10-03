@@ -14,7 +14,4 @@ public class Role
     [Required] // Gör fältet obligatoriskt
     [MaxLength(50)] // Valfritt: Ange maximal längd för fältet
     public string RoleName { get; set; }
-
-    // Navigation property for the one-to-many relationship
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

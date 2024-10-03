@@ -10,14 +10,19 @@ using System.Security.Claims;
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Lägg till tjänster i containern
+
 builder.Services.AddControllers();
+
+//connecta till databasen
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     Console.WriteLine($"Connection String: {connectionString}");
     options.UseNpgsql(connectionString);
 });
+
+// Lägg till tjänster i containern, dependency injektion så att containern vet att den ska skapa en
+// instans utav t.ex UserRepository och injicera den
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddEndpointsApiExplorer();

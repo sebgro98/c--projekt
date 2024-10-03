@@ -13,7 +13,8 @@ namespace AuthApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-
+        
+        //dependency injektion utav instancen UserRepository
         public UsersController(IUserRepository userRepository)
         {
             _userRepository = userRepository;

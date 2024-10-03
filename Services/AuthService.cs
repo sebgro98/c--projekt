@@ -59,7 +59,7 @@ public class AuthService : IAuthService
         {
             Subject = new ClaimsIdentity(new[]
             {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // Lägg till user id i tokenet
             new Claim(ClaimTypes.Role, role.RoleName) // Lägg till rollen i tokenet
         }),
             Expires = DateTime.UtcNow.AddDays(7),

@@ -10,6 +10,7 @@ namespace AuthApi.Controllers
     {
         private readonly IAuthService _authService;
 
+        //dependency injektion utav instancen AuthService
         public AuthController(IAuthService authService)
         {
             _authService = authService;
