@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
 
+    //skapa rollerna automatiskt
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Definiera roller

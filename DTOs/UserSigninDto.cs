@@ -1,3 +1,4 @@
+namespace AuthApi.DTOs;
 public class UserSigninDto
 {
     public string Email { get; set; }

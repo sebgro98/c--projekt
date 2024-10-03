@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 
 public class AuthService : IAuthService
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IConfiguration _configuration;
+    private readonly ApplicationDbContext _context; // för att kunna använda oss utav databas operationer
+    private readonly IConfiguration _configuration; //för att använda jwt secret från appsettings
 
     public AuthService(ApplicationDbContext context, IConfiguration configuration)
     {
